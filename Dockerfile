@@ -2,6 +2,10 @@ FROM node:8.2.1
 
 LABEL maintainer="warhorse@thedarkcloud.net"
 
+ARG BUILD_RFC3339="1970-01-01T00:00:00Z"
+ARG COMMIT="local"
+ARG VERSION="v1.0.0"
+
 EXPOSE 11014
 
 WORKDIR /root/app
