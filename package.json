@@ -17,6 +17,6 @@
   },
   "scripts": {
     "install": "node npm-rebuild.js",
-    "start": "node /root/app/bundle/main.js"
+    "start": "node /root/app/lair/bundle/main.js"
   }
 }
