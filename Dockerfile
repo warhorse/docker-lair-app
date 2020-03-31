@@ -17,6 +17,7 @@ RUN git clone https://github.com/x-a-n-d-e-r-k/lair \
 FROM node:8.2.1
 
 WORKDIR /root/app/lair
+RUN curl "https://install.meteor.com/?release=1.10.1" | sh
 COPY --from=builder /root/app/build/lair/releases/app.tar.gz .
 RUN tar -zxf app.tar.gz \ 
     && cd bundle/programs/server \
