@@ -9,7 +9,7 @@ ARG VERSION="v1.0.1"
 EXPOSE 11014
 
 WORKDIR /root/app/build
-RUN curl "https://install.meteor.com/?release=1.10.1" | sh
+RUN curl "https://install.meteor.com/?release=1.5.1" | sh
 RUN git clone https://github.com/x-a-n-d-e-r-k/lair \
     && cd /root/app/build/lair/app \
     && meteor build --server-only ../releases --allow-superuser
@@ -17,7 +17,7 @@ RUN git clone https://github.com/x-a-n-d-e-r-k/lair \
 FROM node:8.2.1
 
 WORKDIR /root/app/lair
-RUN curl "https://install.meteor.com/?release=1.10.1" | sh
+RUN curl "https://install.meteor.com/?release=1.5.1" | sh
 COPY --from=builder /root/app/build/lair/releases/app.tar.gz .
 RUN tar -zxf app.tar.gz \ 
     && cd bundle/programs/server \
