@@ -13,10 +13,11 @@ RUN curl "https://install.meteor.com/" | sh
 RUN git clone https://github.com/x-a-n-d-e-r-k/lair \
     && cd /root/app/build/lair/app \
     && meteor npm install --save babel-runtime \
-    && meteor build --directory /root/app --allow-superuser
+    && meteor build --directory /root/app/lair --allow-superuser
 
+WORKDIR /root/app/lair
 COPY ./package.json /root/app/lair/bundle/programs/server/package.json
-    RUN cd bundle/programs/server \
+RUN cd bundle/programs/server \
     && npm i
 
 ENV LAIRDB_HOST=lairdb
