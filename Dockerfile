@@ -1,4 +1,4 @@
-FROM node:8.2.1 as builder
+FROM node:8.9.0
 
 LABEL maintainer="warhorse@thedarkcloud.net"
 
@@ -9,22 +9,15 @@ ARG VERSION="v1.0.1"
 EXPOSE 11014
 
 WORKDIR /root/app/build
-RUN curl "https://install.meteor.com/?release=1.5.1" | sh
+RUN curl "https://install.meteor.com/" | sh
 RUN git clone https://github.com/x-a-n-d-e-r-k/lair \
     && cd /root/app/build/lair/app \
-    && meteor build --server-only ../releases --allow-superuser
+    && meteor npm install --save babel-runtime \
+    && meteor build --directory /root/app --allow-superuser
 
-FROM node:8.2.1
-
-WORKDIR /root/app/lair
-RUN curl "https://install.meteor.com/?release=1.5.1" | sh
-COPY --from=builder /root/app/build/lair/releases/app.tar.gz .
-RUN tar -zxf app.tar.gz
 COPY ./package.json /root/app/lair/bundle/programs/server/package.json
-    
-RUN cd bundle/programs/server \
+    RUN cd bundle/programs/server \
     && npm i
-
 
 ENV LAIRDB_HOST=lairdb
 ENV ROOT_URL=http://0.0.0.0
