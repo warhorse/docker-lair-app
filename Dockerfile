@@ -19,11 +19,12 @@ FROM node:8.2.1
 WORKDIR /root/app/lair
 RUN curl "https://install.meteor.com/?release=1.5.1" | sh
 COPY --from=builder /root/app/build/lair/releases/app.tar.gz .
-RUN tar -zxf app.tar.gz \ 
-    && cd bundle/programs/server \
+RUN tar -zxf app.tar.gz
+COPY ./package.json /root/app/lair/bundle/programs/server/package.json
+    
+RUN cd bundle/programs/server \
     && npm i
 
-COPY ./package.json /root/app/lair/bundle/programs/server/package.json
 
 ENV LAIRDB_HOST=lairdb
 ENV ROOT_URL=http://0.0.0.0
