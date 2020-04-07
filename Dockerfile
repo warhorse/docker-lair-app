@@ -1,4 +1,4 @@
-FROM node:8.9.0
+FROM node:8.2.1
 
 LABEL maintainer="warhorse@thedarkcloud.net"
 
@@ -9,10 +9,15 @@ ARG VERSION="v1.0.1"
 EXPOSE 11014
 
 WORKDIR /root/app/build
-RUN curl "https://install.meteor.com/" | sh
+RUN apt-get update && apt-get install -y bsdtar g++ build-essential && ln -sf $(which bsdtar) $(which tar) \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN curl "https://install.meteor.com/?release=1.5.1" | sh
 RUN git clone https://github.com/x-a-n-d-e-r-k/lair \
     && cd /root/app/build/lair/app \
-    && meteor npm install --save babel-runtime \
+    && meteor npm install --save node-gyp@3.4.0 \
+    && meteor npm install --save babel-runtime@6.23.0 \
+    && meteor npm install --save fibers@1.0.15 \
     && meteor build --directory /root/app/lair --allow-superuser
 
 WORKDIR /root/app/lair
